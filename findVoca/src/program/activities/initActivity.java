@@ -33,12 +33,12 @@ public class initActivity extends JPanel {
         loginBtn.setRolloverIcon(new ImageIcon(MainActivity.class.getResource("res/btns/loginBtn2.png")));
         loginBtn.addActionListener(e -> {
 //            /*
-                if(idField.getText().equals(idSample) && pwField.getText().equals(pwSample)) {
+                if(idField.getText().equals(idSample) && pwField.getText().equals(pwSample))
                     main.change("learnerActivity");
-                }
-                else {
+
+                else
                     notFound.showMessageDialog(null, "ID/Password가 일치하지 않습니다.");
-                }
+
 //            */
             /*
                 char[] pw = pwField.getPassword();
@@ -74,8 +74,6 @@ public class initActivity extends JPanel {
         joinBtn.setRolloverIcon(new ImageIcon(MainActivity.class.getResource("res/btns/joinBtn2.png")));
         joinBtn.addActionListener(e -> {
                 main.change("signUpActivity");
-                idField = null;
-                pwField = null;
         });
         joinBtn.setBounds(325, 600, 200, 75);
         add(joinBtn);
