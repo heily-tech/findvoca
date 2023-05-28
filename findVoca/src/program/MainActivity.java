@@ -51,7 +51,7 @@ public class MainActivity extends JFrame {
         else if (panelName.equals("setActivity"))
             getContentPane().add(setActivity);
         else if (panelName.equals("createActivity"))
-            getContentPane().add(setActivity);
+            getContentPane().add(createActivity);
 
         revalidate();
         repaint();

@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 public class signUpActivity extends JPanel {
     private MainActivity main;
     JButton doBtn, backBtn;
-    JLabel idLabel, pwLabel;
-    JTextField idField;
+    JLabel idLabel, pwLabel, nickLabel;
+    JTextField idField, nickField;
     JPasswordField pwField;
     String password = "";
     JOptionPane notFound;
@@ -47,6 +47,17 @@ public class signUpActivity extends JPanel {
         pwField.setFont(new Font("twayair", Font.PLAIN, 25));
         pwField.setBounds(274, 483, 207, 30);
         add(pwField);
+
+        nickLabel = new JLabel();
+        nickLabel.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/nickBase.png")));
+        nickLabel.setBounds(139, 548, 340, 31);
+        add(nickLabel);
+        nickField = new JTextField();
+        nickField.setBorder(BorderFactory.createEmptyBorder());
+        nickField.setOpaque(false);
+        nickField.setFont(new Font("twayair", Font.PLAIN, 25));
+        nickField.setBounds(274, 548, 207, 30);
+        add(nickField);
 
         doBtn = new JButton();
         doBtn.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/joinBtn.png")));
