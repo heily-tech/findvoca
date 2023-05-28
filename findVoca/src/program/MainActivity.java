@@ -1,5 +1,6 @@
 package program;
 
+import program.activities.SignUpActivity;
 import program.activities.initActivity;
 import server.tcpClient;
 

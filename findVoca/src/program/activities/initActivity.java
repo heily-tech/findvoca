@@ -80,29 +80,27 @@ public class initActivity extends JPanel {
         joinBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //new SignUpActivity(main, client);
+                new SignUpActivity(main, client);
             }
         });
         joinBtn.setBounds(325, 600, 200, 75);
         add(joinBtn);
 
-        idLabel = new JLabel("아이디");
-//        idLabel.setIcon();
-        idLabel.setFont(new Font("twayair", Font.PLAIN, 25));
-        idLabel.setBounds(130, 360, 300, 50);
+        idLabel = new JLabel();
+        idLabel.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/idBase.png")));
+        idLabel.setBounds(149, 417, 340, 31);
         add(idLabel);
 
         idField = new JTextField();
         idField.setBorder(BorderFactory.createEmptyBorder());
         idField.setFont(new Font("twayair", Font.PLAIN, 25));
         idField.setOpaque(false);
-        idField.setBounds(220, 370, 180, 30);
+        idField.setBounds(280, 417, 215, 30);
         add(idField);
 
-        pwLabel = new JLabel("비밀번호");
-//        pwLabel.setIcon();
-        pwLabel.setFont(new Font("twayair", Font.PLAIN, 25));
-        pwLabel.setBounds(112, 460, 400, 50);
+        pwLabel = new JLabel();
+        pwLabel.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/pwBase.png")));
+        pwLabel.setBounds(112, 480, 400, 50);
         add(pwLabel);
 
         pwField = new JPasswordField();
@@ -110,10 +108,10 @@ public class initActivity extends JPanel {
         pwField.setOpaque(false);
         pwField.setEchoChar('*');
         pwField.setFont(new Font("twayair", Font.PLAIN, 25));
-        pwField.setBounds(220, 470, 180, 30);
+        pwField.setBounds(280, 480, 215, 30);
         add(pwField);
     }
     protected void paintComponent(Graphics g) {
-        g.drawImage(background, 0, 0, 600, 800, null);
+        g.drawImage(background, 0, 0, 600, 772, null);
     }
 }
