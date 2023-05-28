@@ -33,8 +33,7 @@ public class ServerMain {
         try {
             serverSocketChannel = ServerSocketChannel.open(); //ServerSocketChannel을 정적 메소드인 open()으로 생성
             serverSocketChannel.configureBlocking(true); //기본적으로 블로킹 방식으로 동작하지만, 명시적으로 설정한다.
-            //serverSocketChannel.bind(new InetSocketAddress("jdeok.iptime.org", 5001)); // IP(도메인)및 바인딩포트 적용해 서버소켓을 구성
-            serverSocketChannel.bind(new InetSocketAddress("192.168.0.5", 5006)); // IP(도메인)및 바인딩포트 적용해 서버소켓을 구성
+            serverSocketChannel.bind(new InetSocketAddress("127.0.0.1", 3307)); // IP(도메인)및 바인딩포트 적용해 서버소켓을 구성
         } catch(Exception e) {
             e.printStackTrace();
             System.out.println("이미 사용되고 있는 포트번호 입니다."); //해당 포트를 이미 다른 프로그램에서 사용하고 있을때.

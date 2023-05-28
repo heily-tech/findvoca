@@ -17,14 +17,15 @@ public class DBConnection {
     private static Connection conn;
     private static Statement stmt = null;
     private static final String user = "root";
-    private static final String password = "1234";
-    private static final String database = "";
+    private static final String password = "Hanro61#49";
+    private static final String database = "jdbc:mysql:/127.0.0.1:3306";
 
     static PreparedStatement preStmt;
 
     public static ArrayList<Learner> lList = new ArrayList<Learner>();
 
-    public DBConnection() { lList.add(new Learner("", ""));
+    public DBConnection() {
+        lList.add(new Learner("", ""));
     }
 
     public static Connection getConnection() {

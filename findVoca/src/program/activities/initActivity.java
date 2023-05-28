@@ -16,8 +16,8 @@ public class initActivity extends JPanel {
     JTextField idField;
     JPasswordField pwField;
     String password = "";
-    String idSample = "admin", pwSample = "admin";
     JOptionPane notFound;
+    String idSample = "ad", pwSample = "ad";
 
     public initActivity(MainActivity main, tcpClient client) {
         this.main = main;
@@ -31,19 +31,14 @@ public class initActivity extends JPanel {
         loginBtn.setBorderPainted(false);
         loginBtn.setContentAreaFilled(false);
         loginBtn.setRolloverIcon(new ImageIcon(MainActivity.class.getResource("res/btns/loginBtn2.png")));
-        loginBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        loginBtn.addActionListener(e -> {
 //            /*
                 if(idField.getText().equals(idSample) && pwField.getText().equals(pwSample)) {
-                    main.change("UserActivity");
+                    main.change("learnerActivity");
                 }
                 else {
                     notFound.showMessageDialog(null, "ID/Password가 일치하지 않습니다.");
-                    idField.setText(null);
-                    pwField.setText(null);
                 }
-            }
 //            */
             /*
                 char[] pw = pwField.getPassword();
@@ -77,11 +72,10 @@ public class initActivity extends JPanel {
         joinBtn.setBorderPainted(false);
         joinBtn.setContentAreaFilled(false);
         joinBtn.setRolloverIcon(new ImageIcon(MainActivity.class.getResource("res/btns/joinBtn2.png")));
-        joinBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                main.change("SignUpActivity");
-            }
+        joinBtn.addActionListener(e -> {
+                main.change("signUpActivity");
+                idField = null;
+                pwField = null;
         });
         joinBtn.setBounds(325, 600, 200, 75);
         add(joinBtn);

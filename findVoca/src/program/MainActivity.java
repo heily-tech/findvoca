@@ -1,6 +1,9 @@
 package program;
 
-import program.activities.SignUpActivity;
+import program.activities.createActivity;
+import program.activities.setActivity;
+import program.activities.learnerActivity;
+import program.activities.signUpActivity;
 import program.activities.initActivity;
 import server.tcpClient;
 
@@ -11,7 +14,10 @@ public class MainActivity extends JFrame {
     public static final int GAME_HEIGHT = 800;
     static tcpClient client;
     initActivity initActivity;
-    SignUpActivity signUpActivity;
+    signUpActivity signUpActivity;
+    learnerActivity learnerActivity;
+    setActivity setActivity;
+    createActivity createActivity;
 
     public static void main(String[] args) {
         MainActivity main = new MainActivity();
@@ -24,24 +30,31 @@ public class MainActivity extends JFrame {
 
         main.client = new tcpClient();
         main.initActivity = new initActivity(main, client);
-        main.signUpActivity = new SignUpActivity(main, client);
+        main.signUpActivity = new signUpActivity(main, client);
+        main.learnerActivity = new learnerActivity(main);
+        main.setActivity = new setActivity(main);
+        main.createActivity = new createActivity(main);
 
         main.add(main.initActivity);
         main.setVisible(true);
     }
 
     public void change(String panelName) {
-        if (panelName.equals("initActivity")) {
-            getContentPane().removeAll();
+        getContentPane().removeAll();
+
+        if (panelName.equals("initActivity"))
             getContentPane().add(initActivity);
-            revalidate();
-            repaint();
-        } else if (panelName.equals("SignUpActivity")) {
-            getContentPane().removeAll();
+        else if (panelName.equals("signUpActivity"))
             getContentPane().add(signUpActivity);
-            revalidate();
-            repaint();
-        }
+        else if (panelName.equals("learnerActivity"))
+            getContentPane().add(learnerActivity);
+        else if (panelName.equals("setActivity"))
+            getContentPane().add(setActivity);
+        else if (panelName.equals("createActivity"))
+            getContentPane().add(setActivity);
+
+        revalidate();
+        repaint();
     }
 }
 

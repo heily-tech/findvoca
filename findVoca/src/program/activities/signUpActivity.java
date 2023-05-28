@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SignUpActivity extends JPanel {
+public class signUpActivity extends JPanel {
     private MainActivity main;
     JButton doBtn, backBtn;
     JLabel idLabel, pwLabel;
@@ -18,7 +18,7 @@ public class SignUpActivity extends JPanel {
     JOptionPane notFound;
     Image background = new ImageIcon(MainActivity.class.getResource("res/SignUpBackground.png")).getImage();
 
-    public SignUpActivity(MainActivity main, tcpClient client) {
+    public signUpActivity(MainActivity main, tcpClient client) {
         this.main = main;
         setOpaque(false);
         setLayout(null);
@@ -52,7 +52,7 @@ public class SignUpActivity extends JPanel {
         doBtn.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/joinBtn.png")));
         doBtn.setBorderPainted(false);
         doBtn.setContentAreaFilled(false);
-        doBtn.setRolloverIcon(new ImageIcon(MainActivity.class.getResource("res/btns/joinBtn.png")));
+        doBtn.setRolloverIcon(new ImageIcon(MainActivity.class.getResource("res/btns/joinBtn2.png")));
         doBtn.setBounds(200, 644, 201, 76);
         doBtn.addActionListener(new ActionListener() {
             @Override
