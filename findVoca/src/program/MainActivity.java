@@ -11,6 +11,7 @@ public class MainActivity extends JFrame {
     public static final int GAME_HEIGHT = 800;
     static tcpClient client;
     initActivity initActivity;
+    SignUpActivity signUpActivity;
 
     public static void main(String[] args) {
         MainActivity main = new MainActivity();
@@ -23,6 +24,7 @@ public class MainActivity extends JFrame {
 
         main.client = new tcpClient();
         main.initActivity = new initActivity(main, client);
+        main.signUpActivity = new SignUpActivity(main, client);
 
         main.add(main.initActivity);
         main.setVisible(true);
@@ -32,6 +34,11 @@ public class MainActivity extends JFrame {
         if (panelName.equals("initActivity")) {
             getContentPane().removeAll();
             getContentPane().add(initActivity);
+            revalidate();
+            repaint();
+        } else if (panelName.equals("SignUpActivity")) {
+            getContentPane().removeAll();
+            getContentPane().add(signUpActivity);
             revalidate();
             repaint();
         }

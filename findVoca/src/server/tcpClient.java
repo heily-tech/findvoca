@@ -29,7 +29,7 @@ public class tcpClient {
                     socketChannel = SocketChannel.open();
                     socketChannel.configureBlocking(true);
                     //socketChannel.connect(new InetSocketAddress("jdeok.iptime.org", 5001)); //해당 주소:포트로 연결
-                    socketChannel.connect(new InetSocketAddress("192.168.0.5", 5006)); //해당 주소:포트로 연결
+                    socketChannel.connect(new InetSocketAddress("127.0.0.1", 3306)); //해당 주소:포트로 연결
 
                     String message = "[연결 완료]: " + socketChannel.getRemoteAddress() + "]";
 

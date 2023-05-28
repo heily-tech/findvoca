@@ -4,11 +4,11 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBConnection {
-    class Person {
+    class Learner {
         String id;
         String pw;
 
-        public Person(String id, String pw) {
+        public Learner(String id, String pw) {
             this.id = id;
             this.pw = pw;
         }
@@ -22,10 +22,9 @@ public class DBConnection {
 
     static PreparedStatement preStmt;
 
-    public static ArrayList<Person> pList = new ArrayList<Person>();
+    public static ArrayList<Learner> lList = new ArrayList<Learner>();
 
-    public DBConnection() {
-        pList.add(new Person("", ""));
+    public DBConnection() { lList.add(new Learner("", ""));
     }
 
     public static Connection getConnection() {
@@ -36,7 +35,7 @@ public class DBConnection {
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_UPDATABLE
                 );
-                String query = "create table if not exists user(" +
+                String query = "create table if not exists learner(" +
                         "id varchar(30) primary key, " +
                         "nickname varchar(30), " +
                         "password varchar(30)" +
@@ -51,14 +50,14 @@ public class DBConnection {
     }
 
     public boolean signup(String id, String password) {
-        for (Person p : pList) {
-            if (p.id.equals(id) && p.pw.equals(password)) {
+        for (Learner l : lList) {
+            if (l.id.equals(id) && l.pw.equals(password)) {
                 System.out.println("You are already exist.");
                 return false;
             }
         }
 
-        String query = "insert into user(id, password) values(?, ?)";
+        String query = "insert into learner(id, password) values(?, ?)";
         try {
             preStmt = DBConnection.getConnection().prepareStatement(query);
             preStmt.setString(1, id);
@@ -66,7 +65,7 @@ public class DBConnection {
             preStmt.executeUpdate();
 
             System.out.println("Insert Success! ID : " + id + "PW : " + password);
-            pList.add(new Person(id, password));
+            lList.add(new Learner(id, password));
 
             return true;
         } catch (Exception e) {
@@ -76,7 +75,7 @@ public class DBConnection {
     }
 
     public boolean login(String id, String password) {
-        String query = "select id from user where id= ? and password= ?";
+        String query = "select id from learner where id= ? and password= ?";
         ResultSet resultSet = null;
         try {
             preStmt = DBConnection.getConnection().prepareStatement(query);
@@ -88,8 +87,8 @@ public class DBConnection {
                 if (id.equals("admin") && password.equals("admin"))
                     System.out.println("Admin Login");
                 else
-                    for(Person p : pList)
-                        if (p.id.equals(id) && p.pw.equals(password))
+                    for(Learner l : lList)
+                        if (l.id.equals(id) && l.pw.equals(password))
                             System.out.println("User Login");
                 return true;
             } return false;

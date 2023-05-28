@@ -80,7 +80,7 @@ public class initActivity extends JPanel {
         joinBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SignUpActivity(main, client);
+                main.change("SignUpActivity");
             }
         });
         joinBtn.setBounds(325, 600, 200, 75);
