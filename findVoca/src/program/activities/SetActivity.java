@@ -5,12 +5,12 @@ import program.MainActivity;
 import javax.swing.*;
 import java.awt.*;
 
-public class setActivity extends JPanel {
+public class SetActivity extends JPanel {
     private MainActivity main;
     JButton backBtn, withdrawal;
     Image background = new ImageIcon(MainActivity.class.getResource("res/SignUpBackground.png")).getImage();
 
-    public setActivity(MainActivity main) {
+    public SetActivity(MainActivity main) {
         this.main = main;
         setOpaque(false);
         setLayout(null);

@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class initActivity extends JPanel {
+public class InitActivity extends JPanel {
     Image background = new ImageIcon(MainActivity.class.getResource("res/initBackground.png")).getImage();
     private MainActivity main;
     JButton loginBtn, joinBtn;
@@ -19,7 +19,7 @@ public class initActivity extends JPanel {
     JOptionPane notFound;
     String idSample = "ad", pwSample = "ad";
 
-    public initActivity(MainActivity main, tcpClient client) {
+    public InitActivity(MainActivity main, tcpClient client) {
         this.main = main;
         setOpaque(false);
         setLayout(null);

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class learnerActivity extends JPanel {
+public class LearnerActivity extends JPanel {
     private MainActivity main;
     Image background = new ImageIcon(MainActivity.class.getResource("res/learnerBackground.png")).getImage();
     JLabel nickLabel, vLabel;
@@ -15,7 +15,7 @@ public class learnerActivity extends JPanel {
     String nickSample = "닉네임";
 
 
-    public learnerActivity(MainActivity main/*, tcpClient client*/) {
+    public LearnerActivity(MainActivity main/*, tcpClient client*/) {
         this.main = main;
         setOpaque(false);
         setLayout(null);

@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class signUpActivity extends JPanel {
+public class SignUpActivity extends JPanel {
     private MainActivity main;
     JButton doBtn, backBtn;
     JLabel idLabel, pwLabel, nickLabel;
@@ -18,7 +18,7 @@ public class signUpActivity extends JPanel {
     JOptionPane notFound;
     Image background = new ImageIcon(MainActivity.class.getResource("res/SignUpBackground.png")).getImage();
 
-    public signUpActivity(MainActivity main, tcpClient client) {
+    public SignUpActivity(MainActivity main, tcpClient client) {
         this.main = main;
         setOpaque(false);
         setLayout(null);
