@@ -1,108 +1,61 @@
 package program.activities;
 
+import program.ComponentFactory;
 import program.MainActivity;
 import server.tcpClient;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InitActivity extends JPanel {
-    Image background = new ImageIcon(MainActivity.class.getResource("res/initBackground.png")).getImage();
+    private Image background;
     private MainActivity main;
-    JButton loginBtn, joinBtn;
-    JLabel idLabel, pwLabel;
-    JTextField idField;
-    JPasswordField pwField;
+    private ComponentFactory cf;
+    private JButton loginBtn, joinBtn;
+    private JLabel idLabel, pwLabel;
+    private JTextField idField;
+    private JPasswordField pwField;
     String password = "";
-    JOptionPane notFound;
-    String idSample = "ad", pwSample = "ad";
+    private JOptionPane notFound;
+    private String idSample = "ad", pwSample = "ad";
 
     public InitActivity(MainActivity main, tcpClient client) {
         this.main = main;
+        cf = new ComponentFactory();
+        background = new ImageIcon(MainActivity.class.getResource("res/initBackground.png")).getImage();
+        notFound = new JOptionPane();
         setOpaque(false);
         setLayout(null);
-        notFound = new JOptionPane();
         client.startClient();
 
-        loginBtn = new JButton();
-        loginBtn.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/loginBtn.png")));
-        loginBtn.setBorderPainted(false);
-        loginBtn.setContentAreaFilled(false);
-        loginBtn.setRolloverIcon(new ImageIcon(MainActivity.class.getResource("res/btns/loginBtn2.png")));
-        loginBtn.addActionListener(e -> {
-//            /*
-                if(idField.getText().equals(idSample) && pwField.getText().equals(pwSample))
-                    main.change("learnerActivity");
-
-                else
-                    notFound.showMessageDialog(null, "ID/Password가 일치하지 않습니다.");
-
-//            */
-            /*
-                char[] pw = pwField.getPassword();
-                for (char cha : pw) {
-                    Character.toString(cha);
-                    password += (password.equals("")) ? "" + cha + "" : "" + cha + "";
-                }
-                client.send("@login" + idField.getText() + "," + password);
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                if (client.getLoginResult()) {
-                    main.change("UserActivity");
-                    main.sfx("res/sfxs/select_with_reverb.wav");
-                } else {
-                    main.sfx("res/sfxs/error.wav");
-                    notFound.showMessageDialog(null, "ID/Password가 일치하지 않습니다.");
-                    idField.setText(null);
-                    pwField.setText(null);
-                }
+        loginBtn = cf.createButton("res/btns/loginBtn.png", 75, 600, 200, 80, e -> {
+            if (idField.getText().equals(idSample) && new String(pwField.getPassword()).equals(pwSample)) {
+                main.change("learnerActivity");
+            } else {
+                notFound.showMessageDialog(null, "ID/Password가 일치하지 않습니다.");
             }
-             */
         });
-        loginBtn.setBounds(75, 600, 200, 80);
         add(loginBtn);
 
-        joinBtn = new JButton();
-        joinBtn.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/joinBtn.png")));
-        joinBtn.setBorderPainted(false);
-        joinBtn.setContentAreaFilled(false);
-        joinBtn.setRolloverIcon(new ImageIcon(MainActivity.class.getResource("res/btns/joinBtn2.png")));
-        joinBtn.addActionListener(e -> {
-                main.change("signUpActivity");
+        joinBtn = cf.createButton("res/btns/joinBtn.png",  325, 600, 200, 75, e -> {
+            main.change("signUpActivity");
         });
-        joinBtn.setBounds(325, 600, 200, 75);
         add(joinBtn);
 
-        idLabel = new JLabel();
-        idLabel.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/idBase.png")));
-        idLabel.setBounds(149, 417, 340, 31);
+        idLabel = cf.createLabel("res/btns/idBase.png", 149, 417, 340, 31);
         add(idLabel);
 
-        idField = new JTextField();
-        idField.setBorder(BorderFactory.createEmptyBorder());
-        idField.setFont(new Font("twayair", Font.PLAIN, 25));
-        idField.setOpaque(false);
-        idField.setBounds(280, 417, 215, 30);
+        idField = cf.createTextField(280, 417, 215, 30, 25);
         add(idField);
 
-        pwLabel = new JLabel();
-        pwLabel.setIcon(new ImageIcon(MainActivity.class.getResource("res/btns/pwBase.png")));
-        pwLabel.setBounds(112, 480, 400, 50);
+        pwLabel = cf.createLabel("res/btns/pwBase.png", 112, 480, 400, 50);
         add(pwLabel);
 
-        pwField = new JPasswordField();
-        pwField.setBorder(BorderFactory.createEmptyBorder());
-        pwField.setOpaque(false);
-        pwField.setEchoChar('*');
-        pwField.setFont(new Font("twayair", Font.PLAIN, 25));
-        pwField.setBounds(280, 480, 215, 30);
+        pwField = cf.createPasswordField(280, 480, 215, 30, 25);
         add(pwField);
     }
+
     protected void paintComponent(Graphics g) {
         g.drawImage(background, 0, 0, 600, 772, null);
     }

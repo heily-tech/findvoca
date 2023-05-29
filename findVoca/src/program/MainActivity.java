@@ -1,10 +1,6 @@
 package program;
 
-import program.activities.CreateActivity;
-import program.activities.SetActivity;
-import program.activities.LearnerActivity;
-import program.activities.SignUpActivity;
-import program.activities.InitActivity;
+import program.activities.*;
 import server.tcpClient;
 
 import javax.swing.*;
@@ -17,7 +13,9 @@ public class MainActivity extends JFrame {
     SignUpActivity signUpActivity;
     LearnerActivity learnerActivity;
     SetActivity setActivity;
-    CreateActivity createActivity;
+    CreateVocabulary createVocabulary;
+    ViewVocabulary viewVocabulary;
+    EditVocabulary editVocabulary;
 
     public static void main(String[] args) {
         MainActivity main = new MainActivity();
@@ -33,7 +31,9 @@ public class MainActivity extends JFrame {
         main.signUpActivity = new SignUpActivity(main, client);
         main.learnerActivity = new LearnerActivity(main);
         main.setActivity = new SetActivity(main);
-        main.createActivity = new CreateActivity(main);
+        main.createVocabulary = new CreateVocabulary(main);
+        main.viewVocabulary = new ViewVocabulary(main);
+        main.editVocabulary = new EditVocabulary(main);
 
         main.add(main.initActivity);
         main.setVisible(true);
@@ -50,8 +50,12 @@ public class MainActivity extends JFrame {
             getContentPane().add(learnerActivity);
         else if (panelName.equals("setActivity"))
             getContentPane().add(setActivity);
-        else if (panelName.equals("createActivity"))
-            getContentPane().add(createActivity);
+        else if (panelName.equals("createVocabulary"))
+            getContentPane().add(createVocabulary);
+        else if (panelName.equals("viewVocabulary"))
+            getContentPane().add(viewVocabulary);
+        else if (panelName.equals("editVocabulary"))
+            getContentPane().add(editVocabulary);
 
         revalidate();
         repaint();
