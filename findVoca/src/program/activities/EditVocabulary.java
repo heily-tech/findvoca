@@ -35,7 +35,6 @@ public class EditVocabulary extends JPanel {
         });
         add(backBtn);
 
-
         vField = cf.createTextField(vocaName, 81, 20, 454, 41, 40);
         add(vField);
 

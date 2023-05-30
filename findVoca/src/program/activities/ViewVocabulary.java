@@ -1,6 +1,5 @@
 package program.activities;
 
-import com.sun.tools.javac.Main;
 import program.ComponentFactory;
 import program.MainActivity;
 
@@ -12,7 +11,8 @@ public class ViewVocabulary extends JPanel {
     private ComponentFactory cf;
     private Image background;
     private JButton learnBtn, editBtn, deleteBtn, deleteWordBtn, backBtn;
-    private JLabel vLabel, wordLael, meanLabel, checkedLabel;
+    private JLabel vLabel, wordLabel, meanLabel, checkedLabel;
+    private JPanel wordPanel;
 
     private int nextLine;
 
@@ -25,7 +25,44 @@ public class ViewVocabulary extends JPanel {
         setLayout(null);
         setVisible(true);
 
+        //단어장 정보 불러오기
+        String vocaName = "영단기 100";
+        String[] words = {"apple", "banana"};
+        String[] means = {"사과", "바나나"};
 
+        backBtn = cf.createButton("res/btns/smallBackBtn.png", 21, 19, 23 ,35, e -> {
+            main.change("learnerActivity");
+        });
+        add(backBtn);
+
+        vLabel = cf.createLabel(vocaName, 81, 20, 454, 41, 40);
+        add(vLabel);
+
+        /* WordPanel이 될 부분
+
+        wordLabel = cf.createLabel(words[0], 0, nextLine, 0, 0, 28);
+        add(wordLabel);
+        meanLabel = cf.createLabel(means[0], 0, nextLine, 0, 0, 28);
+        add(meanLabel);
+        checkedLabel = cf.createLabel(******learned, 0, nextLine, 0, 0, 28);
+        add(checkedLabel);
+
+        deleteWordBtn = cf.createButton("res/btns/deleteWordBtn.png", 0, nextLine, 0, 0, e -> {
+            //단어장 내의 해당 단어만 삭제
+        });
+        add(deleteWordBtn);
+
+
+        */
+
+        editBtn = cf.createButton("res/btns/editBtn.png", 0, 664, 0, 0, e -> {
+            main.change("editVocabulary");
+        });
+
+        deleteBtn = cf.createButton("res/btns/deleteBtn.png", 0, 664, 0, 0, e -> {
+            //단어장 db내의 해당 단어장 삭제
+            //어떤 학습자의 'vocaName'
+        });
 
         learnBtn = cf.createButton("res/btns/learnBtn.png", 200, 664, 201, 76, e -> {
             //main.change("");
