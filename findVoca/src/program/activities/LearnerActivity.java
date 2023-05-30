@@ -31,8 +31,8 @@ public class LearnerActivity extends JPanel {
         setVisible(true);
 
         // 단어장 정보 불러오기 (임시 데이터 사용)
-        String[] vocaNames = {"영단기 100", "토익 기출", "일본어 회화", "영단기 100", "토익 기출", "일본어 회화", "일본어 회화", "일본어 회화", "일본어 회화"};
-        int[] vocaSizes = {2, 5, 6, 8, 100, 31, 11, 35, 66, 33};
+        String[] vocaNames = {"영단기 100", "토익 기출", "일본어 회화", "영단기 100", "토익 기출", "일본어 회화", "일본어 회화", "토익 기출", "일본어 회화", "영단기 100", "토익 기출",  "일본어 회화", "일본어 회화"};
+        int[] vocaSizes = {2, 5, 6, 8, 100, 31, 11, 35, 66, 33, 25, 33, 56, 47};
 
         nickLabel = cf.createLabel(nickSample, SwingConstants.RIGHT, 295, 62, 127, 31, 34);
         add(nickLabel);
@@ -69,7 +69,7 @@ public class LearnerActivity extends JPanel {
         }
 
         scrollPane = new JScrollPane(vocaList);
-        scrollPane.setBounds(44, 260, 512, 520);
+        scrollPane.setBounds(44, 260, 512, 480);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setOpaque(false);
