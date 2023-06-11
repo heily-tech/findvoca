@@ -38,22 +38,17 @@ public class ViewVocabulary extends JPanel {
         vLabel = cf.createLabel(vocaName, 81, 20, 454, 41, 40);
         add(vLabel);
 
-        /* WordPanel이 될 부분
-
         wordLabel = cf.createLabel(words[0], 0, nextLine, 0, 0, 28);
         add(wordLabel);
         meanLabel = cf.createLabel(means[0], 0, nextLine, 0, 0, 28);
         add(meanLabel);
-        checkedLabel = cf.createLabel(******learned, 0, nextLine, 0, 0, 28);
+        checkedLabel = cf.createLabel(isLearned(), 0, nextLine, 0, 0, 28);
         add(checkedLabel);
-
         deleteWordBtn = cf.createButton("res/btns/deleteWordBtn.png", 0, nextLine, 0, 0, e -> {
             //단어장 내의 해당 단어만 삭제
         });
         add(deleteWordBtn);
 
-
-        */
 
         editBtn = cf.createButton("res/btns/editBtn.png", 0, 664, 0, 0, e -> {
             main.change("editVocabulary");
@@ -71,6 +66,11 @@ public class ViewVocabulary extends JPanel {
         add(learnBtn);
     }
 
+    private String isLearned() {
+        //학습여부 ㅇㅇ이면, 라벨 뭐로
+        //학습 여부 ㄴㄴ이면, 라벨 뭐로
+        return "";
+    }
     protected void paintComponent(Graphics g) {
         g.drawImage(background, 0, 0, 600, 772, null);
     }

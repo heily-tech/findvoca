@@ -1,31 +1,25 @@
 package dbconn;
 
+import program.Learner;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DBConnection {
-    class Learner {
-        String id;
-        String pw;
 
-        public Learner(String id, String pw) {
-            this.id = id;
-            this.pw = pw;
-        }
-    }
 
     private static Connection conn;
     private static Statement stmt = null;
     private static final String user = "root";
     private static final String password = "1234";
-    private static final String database = "jdbc:mysql:/127.0.0.1:3306";
+    private static final String database = "jdbc:mysql://localhost:3306/findvoca";
 
     static PreparedStatement preStmt;
 
     public static ArrayList<Learner> lList = new ArrayList<Learner>();
 
     public DBConnection() {
-        lList.add(new Learner("", ""));
+        lList.add(new Learner("", "", ""));
     }
 
     public static Connection getConnection() {
@@ -50,23 +44,27 @@ public class DBConnection {
         } return conn;
     }
 
-    public boolean signup(String id, String password) {
+    public boolean signup(String id, String password, String nickname) {
+        if (id.isEmpty() || password.isEmpty() || nickname.isEmpty()) {
+            System.out.println("입력되지 않은 내용이 있습니다.");
+            return false;
+        }
+
         for (Learner l : lList) {
-            if (l.id.equals(id) && l.pw.equals(password)) {
-                System.out.println("You are already exist.");
+            if (l.getId().equals(id) && l.getNickname().equals(nickname)) {
+                System.out.println("이미 존재하는 사용자입니다.");
                 return false;
             }
         }
 
-        String query = "insert into learner(id, password) values(?, ?)";
+        String query = "insert into learner(id, password, nickname) values(?, ?, ?)";
         try {
             preStmt = DBConnection.getConnection().prepareStatement(query);
             preStmt.setString(1, id);
             preStmt.setString(2, password);
+            preStmt.setString(3, nickname);
             preStmt.executeUpdate();
-
-            System.out.println("Insert Success! ID : " + id + "PW : " + password);
-            lList.add(new Learner(id, password));
+            lList.add(new Learner(id, password, nickname));
 
             return true;
         } catch (Exception e) {
@@ -76,6 +74,10 @@ public class DBConnection {
     }
 
     public boolean login(String id, String password) {
+        if (id.isEmpty() || password.isEmpty()) {
+            System.out.println("ID와 비밀번호를 입력해주세요.");
+            return false;
+        }
         String query = "select id from learner where id= ? and password= ?";
         ResultSet resultSet = null;
         try {
@@ -89,7 +91,7 @@ public class DBConnection {
                     System.out.println("Admin Login");
                 else
                     for(Learner l : lList)
-                        if (l.id.equals(id) && l.pw.equals(password))
+                        if (l.getId().equals(id) && l.getPw().equals(password))
                             System.out.println("User Login");
                 return true;
             } return false;

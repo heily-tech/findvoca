@@ -2,12 +2,10 @@ package program.activities;
 
 import program.ComponentFactory;
 import program.MainActivity;
-import server.tcpClient;
+import server.Client;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class SignUpActivity extends JPanel {
     private MainActivity main;
@@ -20,7 +18,7 @@ public class SignUpActivity extends JPanel {
     private JOptionPane notFound;
     private Image background;
 
-    public SignUpActivity(MainActivity main, tcpClient client) {
+    public SignUpActivity(MainActivity main, Client client) {
         this.main = main;
         cf = new ComponentFactory();
         background = new ImageIcon(MainActivity.class.getResource("res/SignUpBackground.png")).getImage();
@@ -45,26 +43,31 @@ public class SignUpActivity extends JPanel {
         add(nickField);
 
         doBtn = cf.createButton("res/btns/joinBtn.png", 200, 644, 201, 76, e -> {
-            char[] pw = pwField.getPassword();
+            String id = idField.getText();
+            char [] pw = pwField.getPassword();
+            String nickname = nickField.getText();
             for (char cha : pw) {
                 Character.toString(cha);
                 password += (password.equals("")) ? ""+cha+"" : ""+cha+"";
             }
-            client.send("@signup" + idField.getText() + "," + password);
+            client.send("@signup@" + id + "@" + password + "@" + nickname);
 
             try {
                 Thread.sleep(300);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-
             if (client.getSignupResult()) {
                 notFound.showMessageDialog(null, "회원가입에 성공했습니다.");
-                main.change("initActivity");
-            } else {
-                notFound.showMessageDialog(null, "ID/Password가 이미 존재합니다.");
                 idField.setText(null);
                 pwField.setText(null);
+                nickField.setText(null);
+                main.change("initActivity");
+            } else {
+                notFound.showMessageDialog(null, "회원가입에 실패했습니다.");
+                idField.setText(null);
+                pwField.setText(null);
+                nickField.setText(null);
             }
         });
         add(doBtn);

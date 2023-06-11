@@ -1,14 +1,16 @@
 package program;
 
 import program.activities.*;
-import server.tcpClient;
+import server.Client;
 
 import javax.swing.*;
+import java.nio.channels.SocketChannel;
 
 public class MainActivity extends JFrame {
     public static final int GAME_WIDTH = 600;
     public static final int GAME_HEIGHT = 800;
-    static tcpClient client;
+    static Client client;
+    static SocketChannel socket;
     InitActivity initActivity;
     SignUpActivity signUpActivity;
     LearnerActivity learnerActivity;
@@ -26,7 +28,7 @@ public class MainActivity extends JFrame {
         main.setLocationRelativeTo(null);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        main.client = new tcpClient();
+        main.client = new Client(socket);
         main.initActivity = new InitActivity(main, client);
         main.signUpActivity = new SignUpActivity(main, client);
         main.learnerActivity = new LearnerActivity(main);

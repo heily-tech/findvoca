@@ -83,7 +83,7 @@ public class LearnerActivity extends JPanel {
                     String selectedVoca = vocaList.getSelectedValue();
                     System.out.println("Selected Index: " + selectedIndex);
                     System.out.println("Selected Vocabulary: " + selectedVoca);
-                    main.change("ViewVocabulary");
+                    main.change("viewVocabulary");
                 }
             }
         });

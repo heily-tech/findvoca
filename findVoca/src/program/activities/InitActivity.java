@@ -2,11 +2,10 @@ package program.activities;
 
 import program.ComponentFactory;
 import program.MainActivity;
-import server.tcpClient;
+import server.Client;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class InitActivity extends JPanel {
     private Image background;
@@ -18,9 +17,8 @@ public class InitActivity extends JPanel {
     private JPasswordField pwField;
     String password = "";
     private JOptionPane notFound;
-    private String idSample = "ad", pwSample = "ad";
 
-    public InitActivity(MainActivity main, tcpClient client) {
+    public InitActivity(MainActivity main, Client client) {
         this.main = main;
         cf = new ComponentFactory();
         background = new ImageIcon(MainActivity.class.getResource("res/initBackground.png")).getImage();
@@ -30,10 +28,28 @@ public class InitActivity extends JPanel {
         client.startClient();
 
         loginBtn = cf.createButton("res/btns/loginBtn.png", 75, 600, 200, 80, e -> {
-            if (idField.getText().equals(idSample) && new String(pwField.getPassword()).equals(pwSample)) {
+            String id = idField.getText();
+            char[] pw = pwField.getPassword();
+            for (char cha : pw) {
+                Character.toString(cha);
+                password += (password.equals("")) ? "" + cha + "" : "" + cha + "";
+            }
+            client.send("@login@" + id + "@" + password);
+
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            System.out.println(client.getLoginResult());
+            if (client.getLoginResult()) {
+                idField.setText(null);
+                pwField.setText(null);
                 main.change("learnerActivity");
             } else {
                 notFound.showMessageDialog(null, "ID/Password가 일치하지 않습니다.");
+                idField.setText(null);
+                pwField.setText(null);
             }
         });
         add(loginBtn);
