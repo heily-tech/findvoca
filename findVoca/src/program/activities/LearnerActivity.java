@@ -88,13 +88,12 @@ public class LearnerActivity extends JPanel {
         add(scrollPane);
 
         vocaList.addListSelectionListener(e -> {
-            main.viewVocabulary = new ViewVocabulary(main);
             if (!e.getValueIsAdjusting()) {
                 int selectedIndex = vocaList.getSelectedIndex();
                 if (selectedIndex != -1) {
                     String selectedVoca = vocaList.getSelectedValue();
-                    System.out.println("Selected Index: " + selectedIndex);
-                    System.out.println("Selected Vocabulary: " + selectedVoca);
+                    client.setVocaName(selectedVoca);
+                    main.viewVocabulary = new ViewVocabulary(main, client);
                     main.change("viewVocabulary");
                 }
             }

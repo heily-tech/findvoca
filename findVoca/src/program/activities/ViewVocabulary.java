@@ -17,7 +17,7 @@ public class ViewVocabulary extends JPanel {
 
     private int nextLine;
 
-    public ViewVocabulary(MainActivity main/*, Client client*/) {
+    public ViewVocabulary(MainActivity main, Client client) {
         this.main = main;
         cf = new ComponentFactory();
         background = new ImageIcon(MainActivity.class.getResource("res/createBackground.png")).getImage();
@@ -36,7 +36,7 @@ public class ViewVocabulary extends JPanel {
         });
         add(backBtn);
 
-        vLabel = cf.createLabel(vocaName, 81, 20, 454, 41, 40);
+        vLabel = cf.createLabel(client.getVocaName(), 81, 20, 454, 41, 40);
         add(vLabel);
 
         wordLabel = cf.createLabel(words[0], 0, nextLine, 0, 0, 28);
@@ -50,16 +50,17 @@ public class ViewVocabulary extends JPanel {
         });
         add(deleteWordBtn);
 
-
         editBtn = cf.createButton("res/btns/editBtn.png", 0, 664, 0, 0, e -> {
             main.editVocabulary = new EditVocabulary(main);
             main.change("editVocabulary");
         });
+        add(editBtn);
 
         deleteBtn = cf.createButton("res/btns/deleteBtn.png", 0, 664, 0, 0, e -> {
             //단어장 db내의 해당 단어장 삭제
             //어떤 학습자의 'vocaName'
         });
+        add(deleteBtn);
 
         learnBtn = cf.createButton("res/btns/learnBtn.png", 200, 664, 201, 76, e -> {
             //main.change("");
