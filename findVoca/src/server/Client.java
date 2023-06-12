@@ -15,7 +15,7 @@ public class Client {
     private String learnerNickname;
     private String vocaName;
     private String[] vocaNames, vocaWords, vocaMeans;
-    private boolean loginResult, signupResult, withdrawalResult, deleteVocaResult, deleteWordResult;
+    private boolean loginResult, signupResult, withdrawalResult, deleteVocaResult, deleteWordResult, createResult;
     private Thread rthread;
 
     public String getLearnerID() {
@@ -38,7 +38,7 @@ public class Client {
                 try {
                     socketChannel = SocketChannel.open();
                     socketChannel.configureBlocking(true);
-                    socketChannel.connect(new InetSocketAddress("127.0.0.1", 3007));
+                    socketChannel.connect(new InetSocketAddress("127.0.0.1", 3008));
 
                     String message = "[연결 완료]: " + socketChannel.getRemoteAddress() + "]";
                     System.out.println(message);
@@ -115,11 +115,17 @@ public class Client {
                     setVocaMeans(vocaMeans);
                 } else if (data.startsWith("@deleteVoca")) {
                     data = data.substring(12);
-                    System.out.println(data);
                     if (data.equals("success"))
                         setDeleteVocaResult(true);
                     else
                         setDeleteVocaResult(false);
+                } else if (data.startsWith("@create")) {
+                    data = data.substring(8);
+                    System.out.println(data);
+                    if (data.equals("success"))
+                        setCreateResult(true);
+                    else
+                        setCreateResult(false);
                 }
             } catch (Exception e) {
                 String message = "[서버 통신 안됨]";
@@ -208,6 +214,14 @@ public class Client {
 
     public void setDeleteWordResult(boolean deleteWordResult) {
         this.deleteWordResult = deleteWordResult;
+    }
+
+    public boolean getCreateResult() {
+        return createResult;
+    }
+
+    public void setCreateResult(boolean createResult) {
+        this.createResult = createResult;
     }
 
     public void send(String data) {

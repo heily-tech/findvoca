@@ -236,4 +236,18 @@ public class DBConnection {
             return false;
         }
     }
+
+    public boolean createVoca(String id, String voca, String word, String mean) {
+        String query = "INSERT INTO " + id  + "(vocaName, word, mean, isLearned) " +
+                "VALUES ('" + voca + "', '" + word + "', '" + mean + "', " + 0 + ")";
+
+        try{
+            Statement stmt = DBConnection.getConnection().createStatement();
+            stmt.executeUpdate(query);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

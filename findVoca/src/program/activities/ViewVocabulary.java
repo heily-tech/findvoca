@@ -52,8 +52,6 @@ public class ViewVocabulary extends JPanel {
             add(wordLabel);
             meanLabel = cf.createLabel(means[i], 220, nextLine, 180, 35, 28);
             add(meanLabel);
-            checkedLabel = cf.createLabel(isLearned(), 465, nextLine, 25, 25, 28);
-            add(checkedLabel);
             /*
             deleteWordBtn = cf.createButton("res/btns/deleteWordBtn.png", 535, nextLine, 26, 35, e -> {
                 client.send("@deleteWord@" + client.getLearnerID() + "@" + client.getVocaName());
@@ -89,6 +87,7 @@ public class ViewVocabulary extends JPanel {
             }
             if (client.getDeleteVocaResult()) {
                 notFound.showMessageDialog(null, "단어장이 삭제되었습니다.");
+                main.learnerActivity = new LearnerActivity(main, client);
                 main.change("learnerActivity");
             } else {
                 notFound.showMessageDialog(null, "단어장이 삭제 되지 않았습니다.");
@@ -97,19 +96,13 @@ public class ViewVocabulary extends JPanel {
         add(deleteBtn);
 
         learnBtn = cf.createButton("res/btns/learnBtn.png", 200, 664, 201, 76, e -> {
-            //main.change("");
-            System.out.println("학습하기");
+            main.findTypos = new FindTypos(main, client);
+            main.change("findTypos");
         });
         add(learnBtn);
 
     }
-
-    private String isLearned() {
-        //학습여부 ㅇㅇ이면, 라벨 뭐로
-        //학습 여부 ㄴㄴ이면, 라벨 뭐로
-        return "";
-    }
     protected void paintComponent(Graphics g) {
-        g.drawImage(background, 0, 0, 600, 772, null);
+        g.drawImage(background, 0, 0, 585, 820, null);
     }
 }

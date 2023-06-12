@@ -57,6 +57,6 @@ public class SetActivity extends JPanel {
     }
 
     protected void paintComponent(Graphics g) {
-        g.drawImage(background, 0, 0, 600, 772, null);
+        g.drawImage(background, 0, 0, 585, 820, null);
     }
 }
