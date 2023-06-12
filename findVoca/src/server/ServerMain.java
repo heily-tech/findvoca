@@ -146,6 +146,49 @@ public class ServerMain {
                 String vocaDatum = String.join(",", vocaNames);
                 client.send("@learnerVoca." + vocaDatum);
             }
+        } else if (message.startsWith("@learnerWord")) {
+            String[] parts = message.split("@");  // @learnerWord@learnerID@vocaName
+            if (parts.length == 4) {
+                String learnerID = parts[2];
+                String vocaName = parts[3];
+                List<String> vocaWords = db.getVocaWords(learnerID, vocaName);
+                String wordDatum = String.join(",", vocaWords);
+                System.out.println(wordDatum);
+                List<String> vocaMeans = db.getVocaMeans(learnerID, vocaName);
+                String meanDatum = String.join(",", vocaMeans);
+                client.send("@learnerWord."+ wordDatum);
+                client.send("@learnerMean."+ meanDatum);
+            }
+        } else if (message.startsWith("@deleteVoca")) {
+            String[] parts = message.split("@"); // @deleteVoca@learnerID@vocaName
+            if (parts.length == 4) {
+                String learnerID = parts[2];
+                String vocaName = parts[3];
+
+                boolean isDeleted = db.deleteVoca(learnerID, vocaName);
+                if (isDeleted) {
+                    String successMessage = "@deleteVoca.success";
+                    client.send(successMessage);
+                } else {
+                    String failureMessage = "@deleteVoca.failed";
+                    client.send(failureMessage);
+                }
+            }
+        } else if (message.startsWith("@deleteWord")) {
+            String[] parts = message.split("@"); // @deleteWord@learnerID@vocaName
+            if (parts.length == 4) {
+                String learnerID = parts[2];
+                String vocaName = parts[3];
+
+                boolean isDeleted = db.deleteWord(learnerID, vocaName);
+                if (isDeleted) {
+                    String successMessage = "@deleteWord.success";
+                    client.send(successMessage);
+                } else {
+                    String failureMessage = "@deleteWord.failed";
+                    client.send(failureMessage);
+                }
+            }
         }
     }
 

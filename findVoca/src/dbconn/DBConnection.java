@@ -176,4 +176,64 @@ public class DBConnection {
         return vocaNames;
     }
 
+    public List<String> getVocaWords(String id, String voca) {
+        List<String> words = new ArrayList<>();
+
+        String query = "SELECT word FROM " + id + " WHERE vocaName = '" + voca +"';";
+        try {
+            Statement stmt = DBConnection.getConnection().createStatement();
+            ResultSet res = stmt.executeQuery(query);
+
+            while (res.next()) {
+                String word = res.getString("word");
+                words.add(word);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return words;
+    }
+    public List<String> getVocaMeans(String id, String voca) {
+        List<String> means = new ArrayList<>();
+
+        String query = "SELECT mean FROM " + id + " WHERE vocaName = '" + voca + "';";
+        try {
+            Statement stmt = DBConnection.getConnection().createStatement();
+            ResultSet res = stmt.executeQuery(query);
+
+            while (res.next()) {
+                String mean = res.getString("mean");
+                means.add(mean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return means;
+    }
+
+    public boolean deleteVoca(String id, String voca) {
+        String query = "DELETE FROM " + id + " WHERE vocaName = '" + voca + "';";
+
+        try{
+            Statement stmt = DBConnection.getConnection().createStatement();
+            stmt.executeUpdate(query);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteWord(String id, String voca) {
+        String query = "DELETE FROM " + id + " WHERE vocaName = '" + voca + "';";
+
+        try{
+            Statement stmt = DBConnection.getConnection().createStatement();
+            stmt.executeUpdate(query);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

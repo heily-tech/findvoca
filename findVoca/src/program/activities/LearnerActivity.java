@@ -53,12 +53,14 @@ public class LearnerActivity extends JPanel {
             client.stopClient();
         });
         add(logoutBtn);
-
+/*
         createBtn = cf.createButton("res/btns/createBtn.png", 473, 190, 88, 56, e -> {
             main.createVocabulary = new CreateVocabulary(main);
             main.change("createVocabulary");
         });
         add(createBtn);
+        
+ */
 
 
         DefaultListModel<String> vocaListModel = new DefaultListModel<>();
