@@ -13,11 +13,11 @@ public class MainActivity extends JFrame {
     static SocketChannel socket;
     InitActivity initActivity;
     SignUpActivity signUpActivity;
-    LearnerActivity learnerActivity;
-    SetActivity setActivity;
-    CreateVocabulary createVocabulary;
-    ViewVocabulary viewVocabulary;
-    EditVocabulary editVocabulary;
+    public LearnerActivity learnerActivity;
+    public SetActivity setActivity;
+    public CreateVocabulary createVocabulary;
+    public ViewVocabulary viewVocabulary;
+    public EditVocabulary editVocabulary;
 
     public static void main(String[] args) {
         MainActivity main = new MainActivity();
@@ -31,11 +31,6 @@ public class MainActivity extends JFrame {
         main.client = new Client(socket);
         main.initActivity = new InitActivity(main, client);
         main.signUpActivity = new SignUpActivity(main, client);
-        main.learnerActivity = new LearnerActivity(main);
-        main.setActivity = new SetActivity(main);
-        main.createVocabulary = new CreateVocabulary(main);
-        main.viewVocabulary = new ViewVocabulary(main);
-        main.editVocabulary = new EditVocabulary(main);
 
         main.add(main.initActivity);
         main.setVisible(true);

@@ -2,6 +2,7 @@ package program.activities;
 
 import program.ComponentFactory;
 import program.MainActivity;
+import server.Client;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -13,48 +14,52 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class LearnerActivity extends JPanel {
-    private MainActivity main;
     private ComponentFactory cf;
     private Image background;
     private JLabel nickLabel, vLabel;
-    private String vocaName, nickSample = "닉네임";
-    private int vocaSize;
-    private JButton logoutBtn, createBtn, setBtn, learnBtn;
+    private JButton logoutBtn, createBtn, setBtn;
     private JScrollPane scrollPane;
+    private String learnerID, learnerNickname;
+    private String[] vocaNames;
 
-    public LearnerActivity(MainActivity main/*, tcpClient client*/) {
-        this.main = main;
+    public LearnerActivity(MainActivity main, Client client) {
         cf = new ComponentFactory();
         background = new ImageIcon(MainActivity.class.getResource("res/learnerBackground.png")).getImage();
+        learnerID = client.getLearnerID();
         setOpaque(false);
         setLayout(null);
         setVisible(true);
-
-        // 단어장 정보 불러오기 (임시 데이터 사용)
-        String[] vocaNames = {"영단기 100", "토익 기출", "일본어 회화", "영단기 100", "토익 기출", "일본어 회화", "일본어 회화", "토익 기출", "일본어 회화", "영단기 100", "토익 기출",  "일본어 회화", "일본어 회화"};
-        int[] vocaSizes = {2, 5, 6, 8, 100, 31, 11, 35, 66, 33, 25, 33, 56, 47};
-
-        nickLabel = cf.createLabel(nickSample, SwingConstants.RIGHT, 295, 62, 127, 31, 34);
+        client.send("@learnerInfo@"+ learnerID);
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        learnerNickname = client.getLearnerNickname();
+        nickLabel = cf.createLabel(learnerNickname, SwingConstants.RIGHT, 295, 62, 127, 31, 34);
         add(nickLabel);
 
         vLabel = cf.createLabel("Vocabulary", 44, 198, 246, 41, 44);
         add(vLabel);
 
         setBtn = cf.createButton("res/btns/logoBtn.png", 440, 36, 126, 126, e -> {
+            main.setActivity = new SetActivity(main, client);
             main.change("setActivity");
         });
         add(setBtn);
 
         logoutBtn = cf.createButton("res/btns/logoutBtn.png", 306, 105, 116, 27, e -> {
             main.change("initActivity");
-            //세션 종료
+            client.stopClient();
         });
         add(logoutBtn);
 
         createBtn = cf.createButton("res/btns/createBtn.png", 473, 190, 88, 56, e -> {
+            main.createVocabulary = new CreateVocabulary(main);
             main.change("createVocabulary");
         });
         add(createBtn);
+
 
         DefaultListModel<String> vocaListModel = new DefaultListModel<>();
         JList<String> vocaList = new JList<>(vocaListModel);
@@ -62,10 +67,16 @@ public class LearnerActivity extends JPanel {
         vocaList.setFont(new Font("twayair", Font.PLAIN, 36));
         vocaList.setOpaque(false);
 
-        for (int i = 0; i < vocaNames.length; i++) {
-            vocaName = vocaNames[i];
-            vocaSize = vocaSizes[i];
-            vocaListModel.addElement(vocaName + "   -   " + vocaSize + "개");
+        client.send("@learnerVoca@" + learnerID);
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        vocaNames = client.getVocaNames();
+        for (String v : vocaNames) {
+            vocaListModel.addElement(v);
         }
 
         scrollPane = new JScrollPane(vocaList);
@@ -77,6 +88,7 @@ public class LearnerActivity extends JPanel {
         add(scrollPane);
 
         vocaList.addListSelectionListener(e -> {
+            main.viewVocabulary = new ViewVocabulary(main);
             if (!e.getValueIsAdjusting()) {
                 int selectedIndex = vocaList.getSelectedIndex();
                 if (selectedIndex != -1) {

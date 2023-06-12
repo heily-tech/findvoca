@@ -14,7 +14,6 @@ public class SignUpActivity extends JPanel {
     private JLabel idLabel, pwLabel, nickLabel;
     private JTextField idField, nickField;
     private JPasswordField pwField;
-    private String password = "";
     private JOptionPane notFound;
     private Image background;
 
@@ -44,12 +43,8 @@ public class SignUpActivity extends JPanel {
 
         doBtn = cf.createButton("res/btns/joinBtn.png", 200, 644, 201, 76, e -> {
             String id = idField.getText();
-            char [] pw = pwField.getPassword();
+            String password = new String(pwField.getPassword());
             String nickname = nickField.getText();
-            for (char cha : pw) {
-                Character.toString(cha);
-                password += (password.equals("")) ? ""+cha+"" : ""+cha+"";
-            }
             client.send("@signup@" + id + "@" + password + "@" + nickname);
 
             try {
@@ -76,10 +71,11 @@ public class SignUpActivity extends JPanel {
             main.change("initActivity");
         });
         add(backBtn);
-
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         g.drawImage(background, 0, 0, 600, 772, null);
     }
 }

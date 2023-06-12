@@ -2,6 +2,7 @@ package program.activities;
 
 import program.ComponentFactory;
 import program.MainActivity;
+import server.Client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ public class ViewVocabulary extends JPanel {
 
     private int nextLine;
 
-    public ViewVocabulary(MainActivity main) {
+    public ViewVocabulary(MainActivity main/*, Client client*/) {
         this.main = main;
         cf = new ComponentFactory();
         background = new ImageIcon(MainActivity.class.getResource("res/createBackground.png")).getImage();
@@ -51,6 +52,7 @@ public class ViewVocabulary extends JPanel {
 
 
         editBtn = cf.createButton("res/btns/editBtn.png", 0, 664, 0, 0, e -> {
+            main.editVocabulary = new EditVocabulary(main);
             main.change("editVocabulary");
         });
 

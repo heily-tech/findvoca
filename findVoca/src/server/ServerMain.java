@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -109,7 +110,6 @@ public class ServerMain {
                 String nickname = parts[4];
 
                 boolean isRegistered = db.signup(username, password, nickname);
-
                 if (isRegistered) {
                     String successMessage = "@signup.success";
                     client.send(successMessage);
@@ -117,6 +117,34 @@ public class ServerMain {
                     String failureMessage = "@signup.failed";
                     client.send(failureMessage);
                 }
+            }
+        } else if (message.startsWith("@withdrawal")) {
+            String[] parts = message.split("@");
+            if (parts.length == 3) { // 형식: @withdrawal@learnerID
+                String learnerID = parts[2];
+                boolean isUnregisterd = db.withdrawal(learnerID);
+                if (isUnregisterd){
+                    String successMessage = "@withdrawal.success";
+                    client.send(successMessage);
+                } else {
+                    String failureMessage = "@withdrawal.failed";
+                    client.send(failureMessage);
+                }
+            }
+        } else if (message.startsWith("@learnerInfo")) {
+            String[] parts = message.split("@");
+            if (parts.length == 3) { // 형식 : @learnerInfo@learnerID
+                String learnerID = parts[2];
+                String nickname = db.getNickname(learnerID);
+                client.send("@learnerInfo." + nickname);
+            }
+        } else if (message.startsWith("@learnerVoca")) {
+            String[] parts = message.split("@");
+            if (parts.length == 3) {
+                String learnerID = parts[2];
+                List<String> vocaNames = db.getVocaNames(learnerID);
+                String vocaDatum = String.join(",", vocaNames);
+                client.send("@learnerVoca." + vocaDatum);
             }
         }
     }

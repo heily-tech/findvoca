@@ -2,12 +2,15 @@ package dbconn;
 
 import program.Learner;
 
+import javax.swing.plaf.nimbus.State;
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DBConnection {
-
-
     private static Connection conn;
     private static Statement stmt = null;
     private static final String user = "root";
@@ -30,11 +33,12 @@ public class DBConnection {
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_UPDATABLE
                 );
-                String query = "create table if not exists learner(" +
-                        "id varchar(30) primary key, " +
-                        "nickname varchar(30), " +
-                        "password varchar(30)" +
+                String query = "CREATE TABLE IF NOT EXISTS learner (" +
+                        "id VARCHAR(30) PRIMARY KEY, " +
+                        "nickname VARCHAR(30), " +
+                        "password VARCHAR(30)" +
                         ")";
+
                 stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -42,6 +46,30 @@ public class DBConnection {
                 System.exit(1);
             }
         } return conn;
+    }
+
+    public boolean login(String id, String password) {
+        if (id.isEmpty() || password.isEmpty()) {
+            System.out.println("ID와 비밀번호를 입력해주세요.");
+            return false;
+        }
+        String query = "SELECT id FROM learner WHERE id= ? AND password= ?";
+        ResultSet resultSet = null;
+        try {
+            preStmt = DBConnection.getConnection().prepareStatement(query);
+            preStmt.setString(1, id);
+            preStmt.setString(2, password);
+            resultSet = preStmt.executeQuery();
+
+            if (resultSet.next()) {
+                for(Learner l : lList)
+                    if (l.getId().equals(id) && l.getPw().equals(password))
+                        System.out.println("User Login");
+                return true;
+            } return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean signup(String id, String password, String nickname) {
@@ -57,7 +85,7 @@ public class DBConnection {
             }
         }
 
-        String query = "insert into learner(id, password, nickname) values(?, ?, ?)";
+        String query = "INSERT INTO learner(id, password, nickname) VALUES(?, ?, ?)";
         try {
             preStmt = DBConnection.getConnection().prepareStatement(query);
             preStmt.setString(1, id);
@@ -66,6 +94,33 @@ public class DBConnection {
             preStmt.executeUpdate();
             lList.add(new Learner(id, password, nickname));
 
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS " + id + " (" +
+                    "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                    "vocaName VARCHAR(30), " +
+                    "word VARCHAR(30), " +
+                    "mean VARCHAR(30), " +
+                    "isLearned BOOLEAN" +
+                    ")";
+
+            Statement stmt = DBConnection.getConnection().createStatement();
+            stmt.executeUpdate(createTableQuery);
+            String[][] defaultVocabulary = {
+                    {"기본 단어장", "resilient", "불굴의", "false"},
+                    {"기본 단어장", "meticulous", "세심한", "false"},
+                    {"기본 단어장", "eccentric", "별난", "false"},
+                    {"기본 단어장", "ambiguous", "애매한", "false"},
+                    {"기본 단어장", "indispensable", "필수적인", "false"},
+                    {"기본 단어장", "exquisite", "정교한", "false"},
+                    {"기본 단어장", "inquisitive", "탐구심이 강한", "false"},
+                    {"기본 단어장", "myriad", "무수한", "false"},
+                    {"기본 단어장", "prolific", "다작의", "false"},
+                    {"기본 단어장", "novel", "새로운", "false"}
+            };
+            for (String[] word : defaultVocabulary) {
+                String insertQuery = "INSERT INTO " + id  + "(vocaName, word, mean, isLearned) " +
+                        "VALUES ('" + word[0] + "', '" + word[1] + "', '" + word[2] + "', " + word[3] + ")";
+                stmt.executeUpdate(insertQuery);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,30 +128,52 @@ public class DBConnection {
         }
     }
 
-    public boolean login(String id, String password) {
-        if (id.isEmpty() || password.isEmpty()) {
-            System.out.println("ID와 비밀번호를 입력해주세요.");
-            return false;
-        }
-        String query = "select id from learner where id= ? and password= ?";
-        ResultSet resultSet = null;
-        try {
-            preStmt = DBConnection.getConnection().prepareStatement(query);
-            preStmt.setString(1, id);
-            preStmt.setString(2, password);
-            resultSet = preStmt.executeQuery();
+    public boolean withdrawal(String id) {
+        String dropTableQuery = "DROP TABLE IF EXISTS " + id;
+        String deleteRecordQuery = "DELETE FROM learner WHERE id = '" + id + "';";
 
-            if (resultSet.next()) {
-                if (id.equals("admin") && password.equals("admin"))
-                    System.out.println("Admin Login");
-                else
-                    for(Learner l : lList)
-                        if (l.getId().equals(id) && l.getPw().equals(password))
-                            System.out.println("User Login");
-                return true;
-            } return false;
-        } catch (Exception e) {
+        try{
+            Statement stmt = DBConnection.getConnection().createStatement();
+            stmt.executeUpdate(dropTableQuery);
+            stmt.executeUpdate(deleteRecordQuery);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
     }
+
+    public String getNickname(String id) {
+        String query = "SELECT nickname FROM learner WHERE id = '" + id + "';";
+        try {
+            Statement stmt = DBConnection.getConnection().createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+
+            if (resultSet.next())
+                return resultSet.getString("nickname");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return query;
+    }
+
+    public List<String> getVocaNames(String id) {
+        List<String> vocaNames = new ArrayList<>();
+
+        String query = "SELECT DISTINCT vocaName FROM " + id;
+        try {
+            Statement stmt = DBConnection.getConnection().createStatement();
+            ResultSet res = stmt.executeQuery(query);
+
+            while (res.next()) {
+                String vocaName = res.getString("vocaName");
+                vocaNames.add(vocaName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vocaNames;
+    }
+
 }

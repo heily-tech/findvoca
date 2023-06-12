@@ -5,15 +5,26 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
-import java.util.StringTokenizer;
-
 
 public class Client {
     public SocketChannel socketChannel;
     private Charset charset = Charset.forName("UTF-8");
+    private String learnerID;
+    private String learnerNickname;
+    private String vocaName;
+    private String[] vocaNames;
     private boolean loginResult;
     private boolean signupResult;
+    private boolean withdrawalResult;
     private Thread rthread;
+
+    public String getLearnerID() {
+        return learnerID;
+    }
+
+    public void setLearnerID(String learnerID) {
+        this.learnerID = learnerID;
+    }
 
     public Client(SocketChannel socket) {
         this.socketChannel = socket;
@@ -53,6 +64,7 @@ public class Client {
             if (socketChannel != null && socketChannel.isOpen())
                 socketChannel.close();
         } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -80,6 +92,19 @@ public class Client {
                         setSignupResult(true);
                     else
                         setSignupResult(false);
+                } else if (data.startsWith("@withdrawal")) {
+                    data = data.substring(12);
+                    if (data.equals("success"))
+                        setWithdrawalResult(true);
+                    else
+                        setWithdrawalResult(false);
+                } else if (data.startsWith("@learnerInfo")) {
+                    data = data.substring(13);
+                    setLearnerNickname(data);
+                } else if (data.startsWith("@learnerVoca")) {
+                    data = data.substring(13);
+                    String[] vocaNames = data.split(",");
+                    setVocaNames(vocaNames);
                 }
             } catch (Exception e) {
                 String message = "[서버 통신 안됨]";
@@ -91,21 +116,51 @@ public class Client {
         }
     }
 
-    public void setLoginResult(boolean result) {
-        this.loginResult = result;
+    public void setLoginResult(boolean res) {
+        this.loginResult = res;
     }
 
     public boolean getLoginResult() {
-        System.out.println(this.loginResult);
         return this.loginResult;
     }
 
-    public void setSignupResult(boolean result) {
-        this.signupResult = result;
+    public void setSignupResult(boolean res) {
+        this.signupResult = res;
     }
 
     public boolean getSignupResult() {
         return this.signupResult;
+    }
+
+    public boolean getWithdrawalResult() {
+        return withdrawalResult;
+    }
+
+    public void setWithdrawalResult(boolean res) {
+        this.withdrawalResult = res;
+    }
+    public String getLearnerNickname() {
+        return learnerNickname;
+    }
+
+    public void setLearnerNickname(String nick) {
+        this.learnerNickname = nick;
+    }
+
+    public String getVocaName() {
+        return vocaName;
+    }
+
+    public void setVocaName(String vocaName) {
+        this.vocaName = vocaName;
+    }
+
+    public String[] getVocaNames() {
+        return vocaNames;
+    }
+
+    public void setVocaNames(String[] vocaNames) {
+        this.vocaNames = vocaNames;
     }
 
     public void send(String data) {
