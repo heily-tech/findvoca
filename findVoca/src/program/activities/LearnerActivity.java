@@ -55,11 +55,10 @@ public class LearnerActivity extends JPanel {
         add(logoutBtn);
 
         createBtn = cf.createButton("res/btns/createBtn.png", 473, 190, 88, 56, e -> {
-            main.createVocabulary = new CreateVocabulary(main);
+            main.createVocabulary = new CreateVocabulary(main, client);
             main.change("createVocabulary");
         });
         add(createBtn);
-
 
         DefaultListModel<String> vocaListModel = new DefaultListModel<>();
         JList<String> vocaList = new JList<>(vocaListModel);
@@ -102,7 +101,7 @@ public class LearnerActivity extends JPanel {
     }
 
     protected void paintComponent(Graphics g) {
-        g.drawImage(background, 0, 0, 600, 772, null);
+        g.drawImage(background, 0, 0, 585, 820, null);
     }
 
 }

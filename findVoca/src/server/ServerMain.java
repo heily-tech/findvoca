@@ -43,7 +43,7 @@ public class ServerMain {
             serverSocketChannel = ServerSocketChannel.open(); //ServerSocketChannel을 정적 메소드인 open()으로 생성
             serverSocketChannel.configureBlocking(true); //기본적으로 블로킹 방식으로 동작하지만, 명시적으로 설정한다.
             //serverSocketChannel.bind(new InetSocketAddress("jdeok.iptime.org", 5001)); // IP(도메인)및 바인딩포트 적용해 서버소켓을 구성
-            serverSocketChannel.bind(new InetSocketAddress("127.0.0.1", 3007)); // IP(도메인)및 바인딩포트 적용해 서버소켓을 구성
+            serverSocketChannel.bind(new InetSocketAddress("127.0.0.1", 3008)); // IP(도메인)및 바인딩포트 적용해 서버소켓을 구성
         } catch(Exception e) {
             e.printStackTrace();
             System.out.println("이미 사용되고 있는 포트번호 입니다."); //해당 포트를 이미 다른 프로그램에서 사용하고 있을때.
@@ -145,6 +145,66 @@ public class ServerMain {
                 List<String> vocaNames = db.getVocaNames(learnerID);
                 String vocaDatum = String.join(",", vocaNames);
                 client.send("@learnerVoca." + vocaDatum);
+            }
+        } else if (message.startsWith("@learnerWord")) {
+            String[] parts = message.split("@");  // @learnerWord@learnerID@vocaName
+            if (parts.length == 4) {
+                String learnerID = parts[2];
+                String vocaName = parts[3];
+                List<String> vocaWords = db.getVocaWords(learnerID, vocaName);
+                String wordDatum = String.join(",", vocaWords);
+                System.out.println(wordDatum);
+                List<String> vocaMeans = db.getVocaMeans(learnerID, vocaName);
+                String meanDatum = String.join(",", vocaMeans);
+                client.send("@learnerWord."+ wordDatum);
+                client.send("@learnerMean."+ meanDatum);
+            }
+        } else if (message.startsWith("@deleteVoca")) {
+            String[] parts = message.split("@"); // @deleteVoca@learnerID@vocaName
+            if (parts.length == 4) {
+                String learnerID = parts[2];
+                String vocaName = parts[3];
+
+                boolean isDeleted = db.deleteVoca(learnerID, vocaName);
+                if (isDeleted) {
+                    String successMessage = "@deleteVoca.success";
+                    client.send(successMessage);
+                } else {
+                    String failureMessage = "@deleteVoca.failed";
+                    client.send(failureMessage);
+                }
+            }
+        } else if (message.startsWith("@deleteWord")) {
+            String[] parts = message.split("@"); // @deleteWord@learnerID@vocaName
+            if (parts.length == 4) {
+                String learnerID = parts[2];
+                String vocaName = parts[3];
+
+                boolean isDeleted = db.deleteWord(learnerID, vocaName);
+                if (isDeleted) {
+                    String successMessage = "@deleteWord.success";
+                    client.send(successMessage);
+                } else {
+                    String failureMessage = "@deleteWord.failed";
+                    client.send(failureMessage);
+                }
+            }
+        } else if (message.startsWith("@create")) {
+            String[] parts = message.split("@"); // @create@learnerID@vocaName@word@mean
+            if (parts.length == 6) {
+                String learnerID = parts[2];
+                String vocaName = parts[3];
+                String word = parts[4];
+                String mean = parts[5];
+
+                boolean isCreated = db.createVoca(learnerID, vocaName, word, mean);
+                if (isCreated) {
+                    String successMessage = "@create.success";
+                    client.send(successMessage);
+                } else {
+                    String failureMessage = "@create.failed";
+                    client.send(failureMessage);
+                }
             }
         }
     }

@@ -76,6 +76,6 @@ public class SignUpActivity extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background, 0, 0, 600, 772, null);
+        g.drawImage(background, 0, 0, 585, 820, null);
     }
 }

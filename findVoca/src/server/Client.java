@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 
 public class Client {
     public SocketChannel socketChannel;
@@ -12,10 +14,8 @@ public class Client {
     private String learnerID;
     private String learnerNickname;
     private String vocaName;
-    private String[] vocaNames;
-    private boolean loginResult;
-    private boolean signupResult;
-    private boolean withdrawalResult;
+    private String[] vocaNames, vocaWords, vocaMeans;
+    private boolean loginResult, signupResult, withdrawalResult, deleteVocaResult, deleteWordResult, createResult;
     private Thread rthread;
 
     public String getLearnerID() {
@@ -38,7 +38,7 @@ public class Client {
                 try {
                     socketChannel = SocketChannel.open();
                     socketChannel.configureBlocking(true);
-                    socketChannel.connect(new InetSocketAddress("127.0.0.1", 3007));
+                    socketChannel.connect(new InetSocketAddress("127.0.0.1", 3008));
 
                     String message = "[연결 완료]: " + socketChannel.getRemoteAddress() + "]";
                     System.out.println(message);
@@ -105,6 +105,27 @@ public class Client {
                     data = data.substring(13);
                     String[] vocaNames = data.split(",");
                     setVocaNames(vocaNames);
+                } else if (data.startsWith("@learnerWord")) {
+                    data = data.substring(13);
+                    String[] vocaWords = data.split(",");
+                    setVocaWords(vocaWords);
+                } else if (data.startsWith("@learnerMean")) {
+                    data = data.substring(13);
+                    String[] vocaMeans = data.split(",");
+                    setVocaMeans(vocaMeans);
+                } else if (data.startsWith("@deleteVoca")) {
+                    data = data.substring(12);
+                    if (data.equals("success"))
+                        setDeleteVocaResult(true);
+                    else
+                        setDeleteVocaResult(false);
+                } else if (data.startsWith("@create")) {
+                    data = data.substring(8);
+                    System.out.println(data);
+                    if (data.equals("success"))
+                        setCreateResult(true);
+                    else
+                        setCreateResult(false);
                 }
             } catch (Exception e) {
                 String message = "[서버 통신 안됨]";
@@ -161,6 +182,46 @@ public class Client {
 
     public void setVocaNames(String[] vocaNames) {
         this.vocaNames = vocaNames;
+    }
+
+    public String[] getVocaWords() {
+        return vocaWords;
+    }
+
+    public void setVocaWords(String[] vocaWords) {
+        this.vocaWords = vocaWords;
+    }
+
+    public String[] getVocaMeans() {
+        return vocaMeans;
+    }
+
+    public void setVocaMeans(String[] vocaMeans) {
+        this.vocaMeans = vocaMeans;
+    }
+
+    public boolean getDeleteVocaResult() {
+        return deleteVocaResult;
+    }
+
+    public void setDeleteVocaResult(boolean deleteVocaResult) {
+        this.deleteVocaResult = deleteVocaResult;
+    }
+
+    public boolean getDeleteWordResult() {
+        return deleteWordResult;
+    }
+
+    public void setDeleteWordResult(boolean deleteWordResult) {
+        this.deleteWordResult = deleteWordResult;
+    }
+
+    public boolean getCreateResult() {
+        return createResult;
+    }
+
+    public void setCreateResult(boolean createResult) {
+        this.createResult = createResult;
     }
 
     public void send(String data) {

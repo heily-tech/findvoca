@@ -2,9 +2,12 @@ package program.activities;
 
 import program.ComponentFactory;
 import program.MainActivity;
+import server.Client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.*;
 
 public class CreateVocabulary extends JPanel {
@@ -13,18 +16,23 @@ public class CreateVocabulary extends JPanel {
     private Image background;
     private JTextField vField;
     private JButton backBtn, addWordBtn, saveBtn;
-    private JPanel addFieldPanel;
-    private JPanel savePanel;
+    private JPanel addFieldPanel, savePanel;
     private int nextLine;
+    private List<JTextField> wordFields;
+    private List<JTextField> meanFields;
+    private JOptionPane notFound;
 
-    public CreateVocabulary(MainActivity main) {
-        this.main = main;
+
+    public CreateVocabulary(MainActivity main, Client client) {
         cf = new ComponentFactory();
         background = new ImageIcon(MainActivity.class.getResource("res/createBackground.png")).getImage();
         nextLine = 0;
+        wordFields = new ArrayList<>();
+        meanFields = new ArrayList<>();
         setOpaque(false);
         setLayout(null);
         setVisible(true);
+        notFound = new JOptionPane();
 
         backBtn = cf.createButton("res/btns/smallBackBtn.png", 21, 19, 23 ,35, e -> {
             main.change("learnerActivity");
@@ -59,8 +67,25 @@ public class CreateVocabulary extends JPanel {
         add(savePanel);
 
         saveBtn = cf.createButton("res/btns/saveBtn.png", 220, 14, 152, 68, e -> {
-            // 내용 저장해서 보내기
-            System.out.println("SAVE");
+            String vocaName = vField.getText();
+            for (int i = 0; i < wordFields.size(); i++) {
+                String word = wordFields.get(i).getText();
+                String mean = meanFields.get(i).getText();
+                client.send("@create@" + client.getLearnerID() + "@" + vocaName + "@" + word + "@" + mean);
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            if (client.getCreateResult()) {
+                notFound.showMessageDialog(null, "단어장이 생성됐습니다.");
+                main.learnerActivity = new LearnerActivity(main, client);
+                main.change("learnerActivity");
+            } else {
+                notFound.showMessageDialog(null, "단어장 생성에 실패했습니다.");
+            }
         });
         savePanel.add(saveBtn);
     }
@@ -73,6 +98,8 @@ public class CreateVocabulary extends JPanel {
         addFieldPanel.add(wordField);
         addFieldPanel.add(partLabel);
         addFieldPanel.add(meanField);
+        wordFields.add(wordField);
+        meanFields.add(meanField);
 
         addWordBtn.setBounds(34, nextLine, 519, 41);
         nextLine += 50;
@@ -83,6 +110,6 @@ public class CreateVocabulary extends JPanel {
     }
 
     protected void paintComponent(Graphics g) {
-        g.drawImage(background, 0, 0, 600, 772, null);
+        g.drawImage(background, 0, 0, 585, 820, null);
     }
 }
