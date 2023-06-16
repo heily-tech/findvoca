@@ -69,7 +69,6 @@ public class Client {
     }
 
     public void receive() {
-        System.out.println("Client received");
         while (true) {
             try {
                 ByteBuffer byteBuffer = ByteBuffer.allocate(10000); //길이가 100으로 생성

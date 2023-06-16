@@ -11,6 +11,7 @@ import java.util.Random;
 public class FindTypos extends JPanel {
     private ComponentFactory cf;
     private MainActivity main;
+    private Client client;
     private Image background;
     private JLabel vLabel;
     private JButton backBtn, prevBtn, nextBtn;
@@ -21,6 +22,8 @@ public class FindTypos extends JPanel {
     private JOptionPane notFound;
 
     public FindTypos(MainActivity main, Client client) {
+        this.main = main;
+        this.client = client;
         cf = new ComponentFactory();
         background = new ImageIcon(MainActivity.class.getResource("res/createBackground.png")).getImage();
         pointer = 0;
@@ -69,6 +72,7 @@ public class FindTypos extends JPanel {
             pointer = words.length - 1;
             notFound.showMessageDialog(null, "수고하셨습니다.");
             main.change("learnerActivity");
+            pointer = 0;
         } else {
             performSequence(words[pointer]);
         }
@@ -84,10 +88,9 @@ public class FindTypos extends JPanel {
     }
 
     private void performSequence(String word) {
+        Random random = new Random();
+        answerIndex = random.nextInt(10);
         for (int i = 0; i < 10; i++) {
-            Random random = new Random();
-            answerIndex = random.nextInt(10);
-            System.out.println(answerIndex);
             if (i == answerIndex) {
                 wordListModel.set(i, createTypo(word));
                 System.out.println("answerIndex : " + answerIndex);
@@ -100,7 +103,6 @@ public class FindTypos extends JPanel {
             if (!e.getValueIsAdjusting()) {
                 int selectedIndex = wordList.getSelectedIndex();
                 if (selectedIndex != -1) {
-                    System.out.println(selectedIndex);
                     if (selectedIndex == answerIndex)
                         increasePointer();
                 }
