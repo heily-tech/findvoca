@@ -5,13 +5,7 @@ import program.MainActivity;
 import server.Client;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class LearnerActivity extends JPanel {
     private ComponentFactory cf;
@@ -74,9 +68,8 @@ public class LearnerActivity extends JPanel {
         }
 
         vocaNames = client.getVocaNames();
-        for (String v : vocaNames) {
+        for (String v : vocaNames)
             vocaListModel.addElement(v);
-        }
 
         scrollPane = new JScrollPane(vocaList);
         scrollPane.setBounds(44, 260, 512, 480);

@@ -22,6 +22,7 @@ public class SetActivity extends JPanel {
         setOpaque(false);
         setLayout(null);
         setVisible(true);
+        notFound = new JOptionPane();
 
         backBtn = cf.createButton("res/btns/backBtn.png", 18, 22, 149, 31, e -> {
             main.change("learnerActivity");
@@ -45,15 +46,6 @@ public class SetActivity extends JPanel {
             }
         });
         add(withdrawal);
-    }
-
-
-    public String getLearnerID() {
-        return learnerID;
-    }
-
-    public void setLearnerID(String learnerID) {
-        this.learnerID = learnerID;
     }
 
     protected void paintComponent(Graphics g) {

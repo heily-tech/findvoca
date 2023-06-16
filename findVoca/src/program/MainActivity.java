@@ -17,7 +17,6 @@ public class MainActivity extends JFrame {
     public SetActivity setActivity;
     public CreateVocabulary createVocabulary;
     public ViewVocabulary viewVocabulary;
-    public EditVocabulary editVocabulary;
     public FindTypos findTypos;
 
     public static void main(String[] args) {
@@ -52,8 +51,6 @@ public class MainActivity extends JFrame {
             getContentPane().add(createVocabulary);
         else if (panelName.equals("viewVocabulary"))
             getContentPane().add(viewVocabulary);
-        else if (panelName.equals("editVocabulary"))
-            getContentPane().add(editVocabulary);
         else if (panelName.equals("findTypos"))
             getContentPane().add(findTypos);
 

@@ -11,7 +11,6 @@ import java.util.Random;
 public class FindTypos extends JPanel {
     private ComponentFactory cf;
     private MainActivity main;
-    private Client client;
     private Image background;
     private JLabel vLabel;
     private JButton backBtn, prevBtn, nextBtn;
@@ -52,9 +51,6 @@ public class FindTypos extends JPanel {
             wordListModel.addElement("0");
         }
         performSequence(words[pointer]);
-
-
-
 
         prevBtn = cf.createButton("res/btns/prevBtn.png", 21, 649, 118, 76, e -> {
             decreasePointer();
@@ -105,13 +101,11 @@ public class FindTypos extends JPanel {
                 int selectedIndex = wordList.getSelectedIndex();
                 if (selectedIndex != -1) {
                     System.out.println(selectedIndex);
-                    if (selectedIndex == answerIndex) {
+                    if (selectedIndex == answerIndex)
                         increasePointer();
-                    }
                 }
             }
         });
-
     }
 
     private String createTypo(String word) {
@@ -123,28 +117,26 @@ public class FindTypos extends JPanel {
             int index = random.nextInt(chars.length);
 
             char c = chars[index];
-            if (c == 'e') {
+            if (c == 'e')
                 chars[index] = random.nextBoolean() ? 'a' : 'o';
-            } else if (c == 'a') {
+            else if (c == 'a')
                 chars[index] = random.nextBoolean() ? 'e' : 'o';
-            } else if (c == 'i') {
+            else if (c == 'i')
                 chars[index] = random.nextBoolean() ? 'l' : 'j';
-            } else if (c == 'l') {
+            else if (c == 'l')
                 chars[index] = random.nextBoolean() ? 'i' : 'j';
-            } else if (c == 'j') {
+            else if (c == 'j')
                 chars[index] = random.nextBoolean() ? 'i' : 'l';
-            } else if (c == 'u') {
+            else if (c == 'u')
                 chars[index] = random.nextBoolean() ? 'o' : 'w';
-            } else if (c == 'o') {
+            else if (c == 'o')
                 chars[index] = random.nextBoolean() ? 'a' : 'e';
-            } else if (c == 'n') {
+            else if (c == 'n')
                 chars[index] = random.nextBoolean() ? 'h' : 'm';
-            } else if (c == 'h') {
+            else if (c == 'h')
                 chars[index] = random.nextBoolean() ? 'n' : 'b';
-            }
             typoGenerated = chars[index] != c;
         }
-
         return new String(chars);
     }
 

@@ -8,18 +8,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.*;
 
 public class CreateVocabulary extends JPanel {
-    private MainActivity main;
     private ComponentFactory cf;
     private Image background;
     private JTextField vField;
     private JButton backBtn, addWordBtn, saveBtn;
     private JPanel addFieldPanel, savePanel;
     private int nextLine;
-    private List<JTextField> wordFields;
-    private List<JTextField> meanFields;
+    private List<JTextField> wordFields, meanFields;
     private JOptionPane notFound;
 
 

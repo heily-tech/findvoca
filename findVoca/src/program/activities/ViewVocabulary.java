@@ -11,12 +11,10 @@ public class ViewVocabulary extends JPanel {
     private MainActivity main;
     private ComponentFactory cf;
     private Image background;
-    private JButton learnBtn, editBtn, deleteBtn, deleteWordBtn, backBtn;
-    private JLabel vLabel, wordLabel, meanLabel, checkedLabel;
+    private JButton learnBtn, deleteBtn, backBtn;
+    private JLabel vLabel, wordLabel, meanLabel;
     private String words[], means[];
     private JOptionPane notFound;
-
-
     private int nextLine;
 
     public ViewVocabulary(MainActivity main, Client client) {
@@ -52,32 +50,8 @@ public class ViewVocabulary extends JPanel {
             add(wordLabel);
             meanLabel = cf.createLabel(means[i], 220, nextLine, 180, 35, 28);
             add(meanLabel);
-            /*
-            deleteWordBtn = cf.createButton("res/btns/deleteWordBtn.png", 535, nextLine, 26, 35, e -> {
-                client.send("@deleteWord@" + client.getLearnerID() + "@" + client.getVocaName());
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                if (client.getDeleteWordResult()) {
-                    notFound.showMessageDialog(null, "단어가 삭제되었습니다.");
-                    main.change("learnerActivity");
-                } else {
-                    notFound.showMessageDialog(null, "단어가 삭제 되지 않았습니다.");
-                }
-            });
-            add(deleteWordBtn);
-             */
             nextLine += 50;
         }
-/*
-        editBtn = cf.createButton("res/btns/editBtn.png", 65, 664, 118, 76, e -> {
-            main.editVocabulary = new EditVocabulary(main);
-            main.change("editVocabulary");
-        });
-        add(editBtn);
-*/
         deleteBtn = cf.createButton("res/btns/deleteBtn.png", 417, 664, 118, 76, e -> {
             client.send("@deleteVoca@" + client.getLearnerID() + "@" + client.getVocaName());
             try {
